@@ -1,11 +1,11 @@
 ---
-name: demo-api-scalar-galaxy-go-sdk
-description: "Go SDK for Demo API (Scalar Galaxy). Use when writing Go code that calls Demo API (Scalar Galaxy) with the github.com/amritk/dev-go package: installing it, constructing and authenticating the client, and calling API operations."
+name: scalar-galaxy-go-sdk
+description: "Go SDK for Scalar Galaxy API. Use when writing Go code that calls Scalar Galaxy API with the github.com/amritk/dev-go package: installing it, constructing and authenticating the client, and calling API operations."
 ---
 
-# Demo API (Scalar Galaxy) Go SDK
+# Scalar Galaxy Go SDK
 
-Generated Go client for Demo API (Scalar Galaxy), published as `github.com/amritk/dev-go`. Use the generated client instead of hand-writing HTTP requests.
+Generated Go client for Scalar Galaxy API, published as `github.com/amritk/dev-go`. Use the generated client instead of hand-writing HTTP requests.
 
 ## Install
 

@@ -1,6 +1,6 @@
-# Demo API (Scalar Galaxy)
+# Scalar Galaxy
 
-This library provides convenient access to the Demo API (Scalar Galaxy) from Go.
+This library provides convenient access to the Scalar Galaxy REST API from Go.
 
 The full API of this library can be found in [api.md](./api.md).
 

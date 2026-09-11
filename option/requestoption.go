@@ -16,7 +16,7 @@ import (
 	"github.com/tidwall/sjson"
 )
 
-// RequestOption is an option for the requests made by the Demo API (Scalar Galaxy) Client
+// RequestOption is an option for the requests made by the Scalar Galaxy API Client
 // which can be supplied to clients, services, and methods.
 type RequestOption = requestconfig.RequestOption
 
