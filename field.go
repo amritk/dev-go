@@ -1,4 +1,4 @@
-package devtypescripttest
+package scalar
 
 import (
 	"github.com/amritk/dev-go/internal/param"
