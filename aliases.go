@@ -3,7 +3,7 @@
 package scalar
 
 import (
-	"github.com/amritk/scalar-go/internal/apierror"
+	"github.com/amritk/dev-go/internal/apierror"
 )
 
 type Error = apierror.Error

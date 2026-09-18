@@ -13,8 +13,8 @@ import (
 	"sync"
 	"time"
 
-	sdk "github.com/amritk/scalar-go"
-	"github.com/amritk/scalar-go/option"
+	sdk "github.com/amritk/dev-go"
+	"github.com/amritk/dev-go/option"
 )
 
 // Smoke test: calls every generated operation once to confirm the SDK can reach each endpoint.

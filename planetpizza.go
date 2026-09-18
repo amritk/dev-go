@@ -13,12 +13,12 @@ import (
 	"slices"
 	"time"
 
-	"github.com/amritk/scalar-go/internal/apiform"
-	"github.com/amritk/scalar-go/internal/apijson"
-	"github.com/amritk/scalar-go/internal/apiquery"
-	"github.com/amritk/scalar-go/internal/param"
-	"github.com/amritk/scalar-go/internal/requestconfig"
-	"github.com/amritk/scalar-go/option"
+	"github.com/amritk/dev-go/internal/apiform"
+	"github.com/amritk/dev-go/internal/apijson"
+	"github.com/amritk/dev-go/internal/apiquery"
+	"github.com/amritk/dev-go/internal/param"
+	"github.com/amritk/dev-go/internal/requestconfig"
+	"github.com/amritk/dev-go/option"
 )
 
 // PlanetPizzaService contains methods and other services that help with interacting

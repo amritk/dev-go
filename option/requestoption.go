@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/amritk/scalar-go/internal/requestconfig"
+	"github.com/amritk/dev-go/internal/requestconfig"
 	"github.com/tidwall/sjson"
 )
 

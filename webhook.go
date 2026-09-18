@@ -9,9 +9,9 @@ import (
 
 	standardwebhooks "github.com/standard-webhooks/standard-webhooks/libraries/go"
 
-	"github.com/amritk/scalar-go/internal/apijson"
-	"github.com/amritk/scalar-go/internal/requestconfig"
-	"github.com/amritk/scalar-go/option"
+	"github.com/amritk/dev-go/internal/apijson"
+	"github.com/amritk/dev-go/internal/requestconfig"
+	"github.com/amritk/dev-go/option"
 )
 
 // WebhookService contains methods that help with parsing and verifying inbound

@@ -13,7 +13,7 @@ import (
 
 	"github.com/tidwall/sjson"
 
-	"github.com/amritk/scalar-go/internal/param"
+	"github.com/amritk/dev-go/internal/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

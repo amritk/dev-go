@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/amritk/scalar-go/internal/requestconfig"
-	"github.com/amritk/scalar-go/option"
+	"github.com/amritk/dev-go/internal/requestconfig"
+	"github.com/amritk/dev-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
