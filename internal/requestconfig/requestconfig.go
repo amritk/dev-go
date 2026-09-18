@@ -18,11 +18,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/amritk/scalar-go/internal"
-	"github.com/amritk/scalar-go/internal/apierror"
-	"github.com/amritk/scalar-go/internal/apiform"
-	"github.com/amritk/scalar-go/internal/apiquery"
-	"github.com/amritk/scalar-go/internal/param"
+	"github.com/amritk/dev-go/internal"
+	"github.com/amritk/dev-go/internal/apierror"
+	"github.com/amritk/dev-go/internal/apiform"
+	"github.com/amritk/dev-go/internal/apiquery"
+	"github.com/amritk/dev-go/internal/param"
 )
 
 func getDefaultHeaders() map[string]string {

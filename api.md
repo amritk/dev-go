@@ -25,7 +25,7 @@ import (
 	"context"
 	"fmt"
 
-	sdk "github.com/amritk/scalar-go"
+	sdk "github.com/amritk/dev-go"
 )
 
 client := sdk.NewClient()

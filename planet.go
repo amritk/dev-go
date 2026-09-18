@@ -3,7 +3,7 @@
 package scalar
 
 import (
-	"github.com/amritk/scalar-go/option"
+	"github.com/amritk/dev-go/option"
 )
 
 // PlanetService contains methods and other services that help with interacting

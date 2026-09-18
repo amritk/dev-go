@@ -1,16 +1,16 @@
 ---
 name: test-it-go-sdk
-description: "Go SDK for Test it API. Use when writing Go code that calls Test it API with the github.com/amritk/scalar-go package: installing it, constructing and authenticating the client, and calling API operations."
+description: "Go SDK for Test it API. Use when writing Go code that calls Test it API with the github.com/amritk/dev-go package: installing it, constructing and authenticating the client, and calling API operations."
 ---
 
 # Test it Go SDK
 
-Generated Go client for Test it API, published as `github.com/amritk/scalar-go`. Use the generated client instead of hand-writing HTTP requests.
+Generated Go client for Test it API, published as `github.com/amritk/dev-go`. Use the generated client instead of hand-writing HTTP requests.
 
 ## Install
 
 ```sh
-go get github.com/amritk/scalar-go
+go get github.com/amritk/dev-go
 ```
 
 ## Client setup and authentication
@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	sdk "github.com/amritk/scalar-go"
+	sdk "github.com/amritk/dev-go"
 )
 
 client := sdk.NewClient()
@@ -46,8 +46,8 @@ import (
 	"fmt"
 	"os"
 
-	sdk "github.com/amritk/scalar-go"
-	"github.com/amritk/scalar-go/option"
+	sdk "github.com/amritk/dev-go"
+	"github.com/amritk/dev-go/option"
 )
 
 func main() {
@@ -86,7 +86,7 @@ if err != nil {
 	panic(err)
 }
 
-// imports: "context", "errors", "fmt", sdk "github.com/amritk/scalar-go"
+// imports: "context", "errors", "fmt", sdk "github.com/amritk/dev-go"
 ```
 
 ## Requirements
