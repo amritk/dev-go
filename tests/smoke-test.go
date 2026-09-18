@@ -20,7 +20,7 @@ import (
 // Smoke test: calls every generated operation once to confirm the SDK can reach each endpoint.
 // Run it from this repo with `go run tests/smoke-test.go`. The generator also runs this file
 // against a mock server and reads the JSON report produced via SCALAR_SMOKE_REPORT.
-var client = sdk.NewClient(option.WithBearerAuth("test"), option.WithBasicAuthUsername("test"), option.WithBasicAuthPassword("test"), option.WithAPIKeyHeader("test"), option.WithAPIKeyCookie("test"), option.WithOAuth2("test"), option.WithOpenIDConnect("test"), option.WithHeader("X-API-Key", "test"), option.WithHeader("Authorization", "Bearer test"), option.WithHeader("Authorization", "Bearer test"), option.WithHeader("Authorization", "Bearer test"))
+var client = sdk.NewClient(option.WithBearerAuth("test"), option.WithBasicAuthUsername("test"), option.WithBasicAuthPassword("test"), option.WithAPIKeyHeader("test"), option.WithAPIKeyQuery("test"), option.WithAPIKeyCookie("test"), option.WithOAuth2("test"), option.WithOpenIDConnect("test"), option.WithHeader("X-API-Key", "test"), option.WithHeader("Authorization", "Bearer test"), option.WithHeader("Authorization", "Bearer test"), option.WithHeader("Authorization", "Bearer test"))
 
 type smokeResult struct {
 	Operation  string `json:"operation"`
@@ -43,7 +43,7 @@ type smokeCase struct {
 }
 
 func _smokeCase0() {
-	pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
+	planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
 		Limit:  sdk.F[int64](10),
 		Offset: sdk.F[int64](0),
 	})
@@ -51,11 +51,11 @@ func _smokeCase0() {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
 func _smokeCase1() {
-	pizza, err := client.Planets.Pizzas.New(context.Background(), sdk.PlanetPizzaNewParams{
+	planet, err := client.Planets.New(context.Background(), sdk.PlanetNewParams{
 		Planet: sdk.PlanetParam{
 			Name: sdk.F[string]("Mars"),
 			Type: sdk.F[sdk.PlanetType](sdk.PlanetType("terrestrial")),
@@ -65,11 +65,11 @@ func _smokeCase1() {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
 func _smokeCase2() {
-	pizza, err := client.Planets.Pizzas.New(context.Background(), sdk.PlanetPizzaNewParams{
+	planet, err := client.Planets.New(context.Background(), sdk.PlanetNewParams{
 		Planet: sdk.PlanetParam{
 			Name:               sdk.F[string]("Mars"),
 			Description:        sdk.F[string]("The red planet"),
@@ -93,46 +93,88 @@ func _smokeCase2() {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
 func _smokeCase3() {
-	pizza, err := client.Planets.Pizzas.Get(context.Background(), 1)
+	planet, err := client.Planets.Get(context.Background(), 1)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
 func _smokeCase4() {
-	err := client.Planets.Pizzas.Delete(context.Background(), 1)
+	planet, err := client.Planets.Update(context.Background(), 1, sdk.PlanetUpdateParams{
+		Planet: sdk.PlanetParam{
+			Name: sdk.F[string]("Mars"),
+			Type: sdk.F[sdk.PlanetType](sdk.PlanetType("terrestrial")),
+		},
+	})
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println(planet)
 }
 
 func _smokeCase5() {
-	pizza, err := client.Planets.Pizzas.UploadImage(context.Background(), 1, sdk.PlanetPizzaUploadImageParams{})
+	planet, err := client.Planets.Update(context.Background(), 1, sdk.PlanetUpdateParams{
+		Planet: sdk.PlanetParam{
+			Name:               sdk.F[string]("Mars"),
+			Description:        sdk.F[string]("The red planet"),
+			Type:               sdk.F[sdk.PlanetType](sdk.PlanetType("terrestrial")),
+			HabitabilityIndex:  sdk.F[float64](0.68),
+			PhysicalProperties: sdk.F[sdk.PlanetPhysicalPropertiesParam](sdk.PlanetPhysicalPropertiesParam{}),
+			Atmosphere:         sdk.F[[]sdk.PlanetAtmosphereParam]([]sdk.PlanetAtmosphereParam{sdk.PlanetAtmosphereParam{}}),
+			DiscoveredAt:       sdk.F[time.Time](time.Now()),
+			Image:              sdk.F[string]("https://cdn.scalar.com/photos/mars.jpg"),
+			Satellites: sdk.F[[]sdk.SatelliteParam]([]sdk.SatelliteParam{sdk.SatelliteParam{
+				Name: sdk.F[string]("Phobos"),
+				Type: sdk.F[sdk.SatelliteType](sdk.SatelliteType("moon")),
+			}}),
+			Creator:            sdk.F[sdk.UserParam](sdk.UserParam{}),
+			Tags:               sdk.F[[]string]([]string{"solar-system", "rocky", "explored"}),
+			SuccessCallbackURL: sdk.F[string]("https://example.com/webhook"),
+			FailureCallbackURL: sdk.F[string]("https://example.com/webhook"),
+		},
+	})
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
 func _smokeCase6() {
-	pizza, err := client.Planets.Pizzas.UploadImage(context.Background(), 1, sdk.PlanetPizzaUploadImageParams{
+	err := client.Planets.Delete(context.Background(), 1)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func _smokeCase7() {
+	planet, err := client.Planets.UploadImage(context.Background(), 1, sdk.PlanetUploadImageParams{})
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(planet)
+}
+
+func _smokeCase8() {
+	planet, err := client.Planets.UploadImage(context.Background(), 1, sdk.PlanetUploadImageParams{
 		Image: sdk.F[io.Reader](strings.NewReader("")),
 	})
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 
-func _smokeCase7() {
+func _smokeCase9() {
 	celestialBody, err := client.CelestialBodies.New(context.Background(), sdk.CelestialBodyNewParams{
 		CelestialBody: sdk.PlanetParam{
 			Name: sdk.F[string]("Mars"),
@@ -146,7 +188,7 @@ func _smokeCase7() {
 	fmt.Println(celestialBody)
 }
 
-func _smokeCase8() {
+func _smokeCase10() {
 	authentication, err := client.Authentication.NewUser(context.Background(), sdk.AuthenticationNewUserParams{
 		Email:    sdk.F[string]("marc@scalar.com"),
 		Password: sdk.F[string]("i-love-scalar"),
@@ -159,7 +201,7 @@ func _smokeCase8() {
 	fmt.Println(authentication)
 }
 
-func _smokeCase9() {
+func _smokeCase11() {
 	authentication, err := client.Authentication.NewToken(context.Background(), sdk.AuthenticationNewTokenParams{
 		Email:    sdk.F[string]("marc@scalar.com"),
 		Password: sdk.F[string]("i-love-scalar"),
@@ -171,7 +213,7 @@ func _smokeCase9() {
 	fmt.Println(authentication)
 }
 
-func _smokeCase10() {
+func _smokeCase12() {
 	authentication, err := client.Authentication.ListMe(context.Background())
 	if err != nil {
 		panic(err)
@@ -212,10 +254,26 @@ var cases = []smokeCase{
 	},
 
 	{
+		Operation: "update",
+		Method:    "PUT",
+		Path:      "/planets/{planetId}",
+		Label:     "required params",
+		Run:       _smokeCase4,
+	},
+
+	{
+		Operation: "update",
+		Method:    "PUT",
+		Path:      "/planets/{planetId}",
+		Label:     "all params",
+		Run:       _smokeCase5,
+	},
+
+	{
 		Operation: "delete",
 		Method:    "DELETE",
 		Path:      "/planets/{planetId}",
-		Run:       _smokeCase4,
+		Run:       _smokeCase6,
 	},
 
 	{
@@ -223,7 +281,7 @@ var cases = []smokeCase{
 		Method:    "POST",
 		Path:      "/planets/{planetId}/image",
 		Label:     "required params",
-		Run:       _smokeCase5,
+		Run:       _smokeCase7,
 	},
 
 	{
@@ -231,35 +289,35 @@ var cases = []smokeCase{
 		Method:    "POST",
 		Path:      "/planets/{planetId}/image",
 		Label:     "all params",
-		Run:       _smokeCase6,
+		Run:       _smokeCase8,
 	},
 
 	{
 		Operation: "create",
 		Method:    "POST",
 		Path:      "/celestial-bodies",
-		Run:       _smokeCase7,
+		Run:       _smokeCase9,
 	},
 
 	{
 		Operation: "createUser",
 		Method:    "POST",
 		Path:      "/user/signup",
-		Run:       _smokeCase8,
+		Run:       _smokeCase10,
 	},
 
 	{
 		Operation: "createToken",
 		Method:    "POST",
 		Path:      "/auth/token",
-		Run:       _smokeCase9,
+		Run:       _smokeCase11,
 	},
 
 	{
 		Operation: "listMe",
 		Method:    "GET",
 		Path:      "/me",
-		Run:       _smokeCase10,
+		Run:       _smokeCase12,
 	},
 }
 
