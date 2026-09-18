@@ -18,16 +18,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/amritk/dev-go/internal"
-	"github.com/amritk/dev-go/internal/apierror"
-	"github.com/amritk/dev-go/internal/apiform"
-	"github.com/amritk/dev-go/internal/apiquery"
-	"github.com/amritk/dev-go/internal/param"
+	"github.com/amritk/scalar-go/internal"
+	"github.com/amritk/scalar-go/internal/apierror"
+	"github.com/amritk/scalar-go/internal/apiform"
+	"github.com/amritk/scalar-go/internal/apiquery"
+	"github.com/amritk/scalar-go/internal/param"
 )
 
 func getDefaultHeaders() map[string]string {
 	return map[string]string{
-		"User-Agent": fmt.Sprintf("ScalarGalaxy/Go %s", internal.PackageVersion),
+		"User-Agent": fmt.Sprintf("TestIt/Go %s", internal.PackageVersion),
 	}
 }
 

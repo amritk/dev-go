@@ -12,7 +12,7 @@ import (
 
 	"github.com/tidwall/gjson"
 
-	"github.com/amritk/dev-go/internal/param"
+	"github.com/amritk/scalar-go/internal/param"
 )
 
 // decoders is a synchronized map with roughly the following type:

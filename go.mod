@@ -1,4 +1,4 @@
-module github.com/amritk/dev-go
+module github.com/amritk/scalar-go
 
 go 1.22
 

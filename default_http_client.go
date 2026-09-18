@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
-package devtypescripttest
+package scalar
 
 import (
 	"net/http"
