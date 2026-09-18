@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/amritk/dev-go/internal/param"
+	"github.com/amritk/scalar-go/internal/param"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

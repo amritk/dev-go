@@ -1,16 +1,16 @@
 ---
-name: scalar-galaxy-go-sdk
-description: "Go SDK for Scalar Galaxy API. Use when writing Go code that calls Scalar Galaxy API with the github.com/amritk/dev-go package: installing it, constructing and authenticating the client, and calling API operations."
+name: test-it-go-sdk
+description: "Go SDK for Test it API. Use when writing Go code that calls Test it API with the github.com/amritk/scalar-go package: installing it, constructing and authenticating the client, and calling API operations."
 ---
 
-# Scalar Galaxy Go SDK
+# Test it Go SDK
 
-Generated Go client for Scalar Galaxy API, published as `github.com/amritk/dev-go`. Use the generated client instead of hand-writing HTTP requests.
+Generated Go client for Test it API, published as `github.com/amritk/scalar-go`. Use the generated client instead of hand-writing HTTP requests.
 
 ## Install
 
 ```sh
-go get github.com/amritk/dev-go
+go get github.com/amritk/scalar-go
 ```
 
 ## Client setup and authentication
@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	sdk "github.com/amritk/dev-go"
+	sdk "github.com/amritk/scalar-go"
 )
 
 client := sdk.NewClient()
@@ -32,7 +32,6 @@ Provide credentials using the options below. Environment variables are read auto
 - `option.WithBasicAuthUsername` (env: `BASIC_AUTH_USERNAME`) — Credential for the basicAuth_username client option.
 - `option.WithBasicAuthPassword` (env: `BASIC_AUTH_PASSWORD`) — Credential for the basicAuth_password client option.
 - `option.WithAPIKeyHeader` (env: `API_KEY_HEADER`) — API key request header
-- `option.WithAPIKeyQuery` (env: `API_KEY_QUERY`) — API key query parameter
 - `option.WithAPIKeyCookie` (env: `API_KEY_COOKIE`) — API key browser cookie
 - `option.WithOAuth2` (env: `O_AUTH2`) — OAuth 2.0 authentication
 - `option.WithOpenIDConnect` (env: `OPEN_ID_CONNECT`) — OpenID Connect Authentication
@@ -47,8 +46,8 @@ import (
 	"fmt"
 	"os"
 
-	sdk "github.com/amritk/dev-go"
-	"github.com/amritk/dev-go/option"
+	sdk "github.com/amritk/scalar-go"
+	"github.com/amritk/scalar-go/option"
 )
 
 func main() {
@@ -56,7 +55,7 @@ func main() {
 		option.WithBearerAuth(os.Getenv("BEARER_AUTH")),
 	)
 
-	planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
+	pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
 		Limit:  sdk.F[int64](10),
 		Offset: sdk.F[int64](0),
 	})
@@ -64,7 +63,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(planet)
+	fmt.Println(pizza)
 }
 ```
 
@@ -75,7 +74,7 @@ Method names, parameter shapes, and response types are generated from the API de
 Non-success responses return generated API errors. Error objects expose status, headers, response body, and request metadata where the target runtime supports it.
 
 ```go
-planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
+pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
 	Limit:  sdk.F[int64](10),
 	Offset: sdk.F[int64](0),
 })
@@ -87,7 +86,7 @@ if err != nil {
 	panic(err)
 }
 
-// imports: "context", "errors", "fmt", sdk "github.com/amritk/dev-go"
+// imports: "context", "errors", "fmt", sdk "github.com/amritk/scalar-go"
 ```
 
 ## Requirements
