@@ -1,16 +1,16 @@
-# Test it Go API
+# Scalar Galaxy Go API
 
 Complete reference of every operation, grouped by resource. See [the README](./README.md) for usage and configuration.
 
 ## Contents
 
 - [`Planets`](#planets)
-  - [`Planets Pizzas`](#planets-pizzas)
-    - [Get all planets](#get-all-planets)
-    - [Create a planet](#create-a-planet)
-    - [Get a planet](#get-a-planet)
-    - [Delete a planet](#delete-a-planet)
-    - [Upload an image to a planet](#upload-an-image-to-a-planet)
+  - [Get all planets](#get-all-planets)
+  - [Create a planet](#create-a-planet)
+  - [Get a planet](#get-a-planet)
+  - [Update a planet](#update-a-planet)
+  - [Delete a planet](#delete-a-planet)
+  - [Upload an image to a planet](#upload-an-image-to-a-planet)
 - [`CelestialBodies`](#celestialbodies)
   - [Create a celestial body](#create-a-celestial-body)
 - [`Authentication`](#authentication)
@@ -33,21 +33,19 @@ client := sdk.NewClient()
 
 ## `Planets`
 
-### `Planets Pizzas`
-
 Everything about planets
 
-#### Get all planets
+### Get all planets
 
 It's easy to say you know them all, but do you really? Retrieve all the planets and check whether you missed one.
 
 | Direction | Type |
 | --- | --- |
-| Request | [`PlanetPizzaListParams`](./planetpizza.go) |
-| Response | [`PlanetPizzaListResponse`](./planetpizza.go) |
+| Request | [`PlanetListParams`](./planet.go) |
+| Response | [`PlanetListResponse`](./planet.go) |
 
 ```go
-pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
+planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
 	Limit:  sdk.F[int64](10),
 	Offset: sdk.F[int64](0),
 })
@@ -55,20 +53,20 @@ if err != nil {
 	panic(err)
 }
 
-fmt.Println(pizza)
+fmt.Println(planet)
 ```
 
-#### Create a planet
+### Create a planet
 
 Time to play god and create a new planet. What do you think? Ah, don't think too much. What could go wrong anyway?
 
 | Direction | Type |
 | --- | --- |
-| Request | [`PlanetPizzaNewParams`](./planetpizza.go) |
-| Response | [`Planet`](./planetpizza.go) |
+| Request | [`PlanetNewParams`](./planet.go) |
+| Response | [`Planet`](./planet.go) |
 
 ```go
-pizza, err := client.Planets.Pizzas.New(context.Background(), sdk.PlanetPizzaNewParams{
+planet, err := client.Planets.New(context.Background(), sdk.PlanetNewParams{
 	Planet: sdk.PlanetParam{
 		Name: sdk.F[string]("Mars"),
 		Type: sdk.F[sdk.PlanetType](sdk.PlanetType("terrestrial")),
@@ -78,53 +76,76 @@ if err != nil {
 	panic(err)
 }
 
-fmt.Println(pizza)
+fmt.Println(planet)
 ```
 
-#### Get a planet
+### Get a planet
 
 You'll better learn a little bit more about the planets. It might come in handy once space travel is available for everyone.
 
 | Direction | Type |
 | --- | --- |
-| Response | [`Planet`](./planetpizza.go) |
+| Response | [`Planet`](./planet.go) |
 
 ```go
-pizza, err := client.Planets.Pizzas.Get(context.Background(), 1)
+planet, err := client.Planets.Get(context.Background(), 1)
 if err != nil {
 	panic(err)
 }
 
-fmt.Println(pizza)
+fmt.Println(planet)
 ```
 
-#### Delete a planet
+### Update a planet
+
+Sometimes you make mistakes, that's fine. No worries, you can update all planets.
+
+| Direction | Type |
+| --- | --- |
+| Request | [`PlanetUpdateParams`](./planet.go) |
+| Response | [`Planet`](./planet.go) |
+
+```go
+planet, err := client.Planets.Update(context.Background(), 1, sdk.PlanetUpdateParams{
+	Planet: sdk.PlanetParam{
+		Name: sdk.F[string]("Mars"),
+		Type: sdk.F[sdk.PlanetType](sdk.PlanetType("terrestrial")),
+	},
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(planet)
+```
+
+### Delete a planet
 
 This endpoint was used to delete planets. Unfortunately, that caused a lot of trouble for planets with life. So, this endpoint is now deprecated and should not be used anymore.
 
 ```go
-err := client.Planets.Pizzas.Delete(context.Background(), 1)
+err := client.Planets.Delete(context.Background(), 1)
 if err != nil {
 	panic(err)
 }
 ```
 
-#### Upload an image to a planet
+### Upload an image to a planet
 
 Got a crazy good photo of a planet? Share it with the world!
 
 | Direction | Type |
 | --- | --- |
-| Request | [`PlanetPizzaUploadImageParams`](./planetpizza.go) |
-| Response | [`PlanetPizzaUploadImageResponse`](./planetpizza.go) |
+| Request | [`PlanetUploadImageParams`](./planet.go) |
+| Response | [`PlanetUploadImageResponse`](./planet.go) |
 
 ```go
-pizza, err := client.Planets.Pizzas.UploadImage(context.Background(), 1, sdk.PlanetPizzaUploadImageParams{})
+planet, err := client.Planets.UploadImage(context.Background(), 1, sdk.PlanetUploadImageParams{})
 if err != nil {
 	panic(err)
 }
 
-fmt.Println(pizza)
+fmt.Println(planet)
 ```
 
 ## `CelestialBodies`

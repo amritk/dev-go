@@ -16,7 +16,7 @@ import (
 	"github.com/tidwall/sjson"
 )
 
-// RequestOption is an option for the requests made by the Test it API Client
+// RequestOption is an option for the requests made by the Scalar Galaxy API Client
 // which can be supplied to clients, services, and methods.
 type RequestOption = requestconfig.RequestOption
 
@@ -167,12 +167,16 @@ func existingJSONBody(r *requestconfig.RequestConfig) ([]byte, error) {
 }
 
 // replaceJSONBody updates request bookkeeping so Execute sends the merged JSON body.
+// A content type already on the request is kept, since the body it describes (for example
+// one set with WithRequestBody) is the one the merge edited.
 func replaceJSONBody(r *requestconfig.RequestConfig, body []byte) {
 	r.Body = bytes.NewBuffer(body)
 	if r.Request == nil {
 		return
 	}
-	r.Request.Header.Set("Content-Type", "application/json")
+	if r.Request.Header.Get("Content-Type") == "" {
+		r.Request.Header.Set("Content-Type", "application/json")
+	}
 	r.Request.Body = nil
 	r.Request.GetBody = nil
 	r.Request.ContentLength = 0
@@ -195,10 +199,11 @@ func WithJSONSet(key string, value interface{}) RequestOption {
 }
 
 // WithJSONDel returns a RequestOption that deletes the body's JSON value associated with the key.
+// A request without a body has nothing to delete from and is left unchanged.
 func WithJSONDel(key string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) (err error) {
 		body, err := existingJSONBody(r)
-		if err != nil {
+		if err != nil || body == nil {
 			return err
 		}
 		body, err = sjson.DeleteBytes(body, key)
@@ -277,14 +282,15 @@ func WithEnvironmentRespondsWithYourRequestData() RequestOption {
 // WithBearerAuth returns a RequestOption that sets the client setting "bearerAuth".
 func WithBearerAuth(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
-		r.Request.Header.Set("Authorization", "Bearer "+value)
-		return nil
+		r.BearerAuth = value
+		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.BearerAuth)))
 	})
 }
 
 // WithBasicAuthUsername returns a RequestOption that sets the client setting "basicAuth_username".
 func WithBasicAuthUsername(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		r.BasicAuthUsername = value
 		encoded := encodeBasicAuth(value, "")
 		r.Request.Header.Set("Authorization", "Basic "+encoded)
 		return nil
@@ -294,6 +300,7 @@ func WithBasicAuthUsername(value string) RequestOption {
 // WithBasicAuthPassword returns a RequestOption that sets the client setting "basicAuth_password".
 func WithBasicAuthPassword(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		r.BasicAuthPassword = value
 		encoded := encodeBasicAuth("", value)
 		r.Request.Header.Set("Authorization", "Basic "+encoded)
 		return nil
@@ -303,7 +310,18 @@ func WithBasicAuthPassword(value string) RequestOption {
 // WithAPIKeyHeader returns a RequestOption that sets the client setting "apiKeyHeader".
 func WithAPIKeyHeader(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
-		r.Request.Header.Set("X-API-Key", value)
+		r.APIKeyHeader = value
+		return r.Apply(WithHeader("X-API-Key", r.APIKeyHeader))
+	})
+}
+
+// WithAPIKeyQuery returns a RequestOption that sets the client setting "apiKeyQuery".
+func WithAPIKeyQuery(value string) RequestOption {
+	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		r.APIKeyQuery = value
+		query := r.Request.URL.Query()
+		query.Set("api_key", value)
+		r.Request.URL.RawQuery = query.Encode()
 		return nil
 	})
 }
@@ -311,6 +329,7 @@ func WithAPIKeyHeader(value string) RequestOption {
 // WithAPIKeyCookie returns a RequestOption that sets the client setting "apiKeyCookie".
 func WithAPIKeyCookie(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
+		r.APIKeyCookie = value
 		r.Request.AddCookie(&http.Cookie{Name: "api_key", Value: value})
 		return nil
 	})
@@ -319,16 +338,16 @@ func WithAPIKeyCookie(value string) RequestOption {
 // WithOAuth2 returns a RequestOption that sets the client setting "oAuth2".
 func WithOAuth2(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
-		r.Request.Header.Set("Authorization", "Bearer "+value)
-		return nil
+		r.OAuth2 = value
+		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.OAuth2)))
 	})
 }
 
 // WithOpenIDConnect returns a RequestOption that sets the client setting "openIdConnect".
 func WithOpenIDConnect(value string) RequestOption {
 	return requestconfig.RequestOptionFunc(func(r *requestconfig.RequestConfig) error {
-		r.Request.Header.Set("Authorization", "Bearer "+value)
-		return nil
+		r.OpenIDConnect = value
+		return r.Apply(WithHeader("authorization", fmt.Sprintf("Bearer %s", r.OpenIDConnect)))
 	})
 }
 

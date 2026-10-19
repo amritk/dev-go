@@ -1,6 +1,6 @@
-# Test it
+# Scalar Galaxy
 
-This library provides convenient access to the Test it REST API from Go.
+This library provides convenient access to the Scalar Galaxy REST API from Go.
 
 The full API of this library can be found in [api.md](./api.md).
 
@@ -49,7 +49,7 @@ func main() {
 		option.WithBearerAuth(os.Getenv("BEARER_AUTH")),
 	)
 
-	pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
+	planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
 		Limit:  sdk.F[int64](10),
 		Offset: sdk.F[int64](0),
 	})
@@ -57,7 +57,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(pizza)
+	fmt.Println(planet)
 }
 ```
 
@@ -73,13 +73,14 @@ Pass credentials to the generated client constructor. Environment variables are 
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `option.WithBearerAuth` | `string \| provider` | - | JWT Bearer token authentication Defaults to BEARER_AUTH. |
-| `option.WithBasicAuthUsername` | `string \| provider` | - | Credential for the basicAuth_username client option. Defaults to BASIC_AUTH_USERNAME. |
-| `option.WithBasicAuthPassword` | `string \| provider` | - | Credential for the basicAuth_password client option. Defaults to BASIC_AUTH_PASSWORD. |
-| `option.WithAPIKeyHeader` | `string \| provider` | - | API key request header Defaults to API_KEY_HEADER. |
-| `option.WithAPIKeyCookie` | `string \| provider` | - | API key browser cookie Defaults to API_KEY_COOKIE. |
-| `option.WithOAuth2` | `string \| provider` | - | OAuth 2.0 authentication Defaults to O_AUTH2. |
-| `option.WithOpenIDConnect` | `string \| provider` | - | OpenID Connect Authentication Defaults to OPEN_ID_CONNECT. |
+| `option.WithBearerAuth` | `func(string) option.RequestOption` | - | JWT Bearer token authentication Defaults to BEARER_AUTH. |
+| `option.WithBasicAuthUsername` | `func(string) option.RequestOption` | - | Credential for the basicAuth_username client option. Defaults to BASIC_AUTH_USERNAME. |
+| `option.WithBasicAuthPassword` | `func(string) option.RequestOption` | - | Credential for the basicAuth_password client option. Defaults to BASIC_AUTH_PASSWORD. |
+| `option.WithAPIKeyHeader` | `func(string) option.RequestOption` | - | API key request header Defaults to API_KEY_HEADER. |
+| `option.WithAPIKeyQuery` | `func(string) option.RequestOption` | - | API key query parameter Defaults to API_KEY_QUERY. |
+| `option.WithAPIKeyCookie` | `func(string) option.RequestOption` | - | API key browser cookie Defaults to API_KEY_COOKIE. |
+| `option.WithOAuth2` | `func(string) option.RequestOption` | - | OAuth 2.0 authentication Defaults to O_AUTH2. |
+| `option.WithOpenIDConnect` | `func(string) option.RequestOption` | - | OpenID Connect Authentication Defaults to OPEN_ID_CONNECT. |
 
 Declared schemes:
 
@@ -98,14 +99,14 @@ Declared schemes:
 Non-success responses return generated API errors. Error objects expose status, headers, response body, and request metadata where the target runtime supports it.
 
 ```go
-pizza, err := client.Planets.Pizzas.List(context.Background(), sdk.PlanetPizzaListParams{
+planet, err := client.Planets.List(context.Background(), sdk.PlanetListParams{
 	Limit:  sdk.F[int64](10),
 	Offset: sdk.F[int64](0),
 })
 if err != nil {
 	var apiErr *sdk.Error
 	if errors.As(err, &apiErr) {
-		fmt.Println(apiErr.StatusCode, apiErr.RawJSON())
+		fmt.Println(apiErr.StatusCode, apiErr.JSON.RawJSON())
 	}
 	panic(err)
 }
@@ -137,12 +138,13 @@ client := sdk.NewClient(
 | `option.WithBasicAuthUsername` | `func(string) option.RequestOption` | `os.Getenv("BASIC_AUTH_USERNAME")` | Credential for the basicAuth_username client option. |
 | `option.WithBasicAuthPassword` | `func(string) option.RequestOption` | `os.Getenv("BASIC_AUTH_PASSWORD")` | Credential for the basicAuth_password client option. |
 | `option.WithAPIKeyHeader` | `func(string) option.RequestOption` | `os.Getenv("API_KEY_HEADER")` | API key request header |
+| `option.WithAPIKeyQuery` | `func(string) option.RequestOption` | `os.Getenv("API_KEY_QUERY")` | API key query parameter |
 | `option.WithAPIKeyCookie` | `func(string) option.RequestOption` | `os.Getenv("API_KEY_COOKIE")` | API key browser cookie |
 | `option.WithOAuth2` | `func(string) option.RequestOption` | `os.Getenv("O_AUTH2")` | OAuth 2.0 authentication |
 | `option.WithOpenIDConnect` | `func(string) option.RequestOption` | `os.Getenv("OPEN_ID_CONNECT")` | OpenID Connect Authentication |
 | `option.WithEnvironmentProduction` | `func() option.RequestOption` | - | Select the production API environment. |
 | `option.WithEnvironmentRespondsWithYourRequestData` | `func() option.RequestOption` | - | Select the responds_with_your_request_data API environment. |
-| `option.WithBaseURL` | `func(string) option.RequestOption` | `os.Getenv("SCALAR_69_T4_L_BASE_URL")` | Override the default API base URL. |
+| `option.WithBaseURL` | `func(string) option.RequestOption` | `os.Getenv("SCALAR_BW0_GP_BASE_URL")` | Override the default API base URL. |
 | `option.WithRequestTimeout` | `func(time.Duration) option.RequestOption` | - | Maximum time to wait for each request attempt. |
 | `option.WithMaxRetries` | `func(int) option.RequestOption` | `2` | Number of retries for temporary failures. |
 | `option.WithHTTPClient` | `func(option.HTTPClient) option.RequestOption` | - | Custom HTTP client or transport implementation. |
@@ -170,7 +172,7 @@ Generated clients support request timeouts and retry temporary failures such as 
 ## Helpers
 
 - Pass `option.WithResponseInto(&raw)` to capture the underlying `*http.Response` for a request.
-- Use the generated `String`, `Int`, `Bool`, `Float`, `Time`, `Opt`, and `Ptr` helpers when setting optional params.
+- Use the generated `F`, `Null`, `Raw`, `Int`, `String`, `Float`, `Bool`, and `FileParam` helpers when setting optional params.
 
 <br />
 
